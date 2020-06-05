@@ -38,7 +38,7 @@ Al iniciar sesión seguir los siguientes pasos:
     <p align="center">
       <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/edit_applications.jpg" width="900">
     </p>
-4.  Al abrirse la ventana emergente, seleccionar el producto.
+4.  Al abrirse la ventana, seleccionar el producto.
 5.  Dar clic en el botón "**Guardar App**":
     <p align="center">
       <img src="https://github.com/APIHub-CdC/imagenes-cdc/blob/master/selected_product.jpg" width="400">
