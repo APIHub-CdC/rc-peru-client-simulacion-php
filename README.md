@@ -1,6 +1,7 @@
-# loan-amount-estimator-simulacion-client-php
+# rc-peru-client-simulacion-php
 
-Predice el desempeño crediticio futuro para una cuenta específica aprobada previamente. Contiene un conjunto de Scores para cada cuenta representados por un puntaje numérico en un rango definido.
+Reporte de Crédito de personas naturales y jurídicas que considera fuentes públicas y privadas.
+
 
 ## Requisitos
 
@@ -45,77 +46,48 @@ Al iniciar sesión seguir los siguientes pasos:
 
 ### Paso 2. Capturar los datos de la petición
 
-Los siguientes datos a modificar se encuentran en **_test/Api/LAESimulacionApiTest.php_**
+Los siguientes datos a modificar se encuentran en **test/Api/ApiTest.php_**
 
 Es importante contar con el setUp() que se encargará de inicializar la url. Modificar la URL **_('the_url')_** de la petición del objeto **_\$config_**, como se muestra en el siguiente fragmento de código:
 
 ```php
 public function setUp()
 {
-  $handler = \GuzzleHttp\HandlerStack::create();
-  $config = new \LAESimulacion\Client\Configuration();
-  $config->setHost('the_url');
+    $handler = \GuzzleHttp\HandlerStack::create();
+    $config = new \rc\simulacion\pe\Client\Configuration();
+    $config->setHost('the_url');
 
-  $client = new \GuzzleHttp\Client(['handler' => $handler]);
-  $this->apiInstance = new LAEApi($client, $config);
-
-  $this->x_api_key = "your_api_key";
-}
+    $client = new \GuzzleHttp\Client(['handler' => $handler]);
+    $this->apiInstance = new \rc\simulacion\pe\Client\Api\ReporteCreditoPeruSimulacionApi($client, $config);
+    $this->x_api_key = "your_api_key";
+} 
 
 /**
-* Este es el método que se será ejecutado en la prueba ubicado en path/to/repository/test/Api/LAESimulacionApiTest.php
+* Este es el método que se será ejecutado en la prueba ubicado en path/to/repository/test/Api/ApiTest.php
 */
-public function testGetLAEByPerson()
+public function testGetRC()
 {
-  $request = new \LAESimulacion\Client\Model\PeticionPersona();
-  $persona = new \LAESimulacion\Client\Model\Persona();
-  $domicilio = new \LAESimulacion\Client\Model\DomicilioPeticion();        
-  $estado = new \LAESimulacion\Client\Model\CatalogoEstados();
-  $segmento = new \LAESimulacion\Client\Model\CatalogoSegmento();
-      
-  $domicilio->setDireccion("INSURGENTES SUR 1007");
-  $domicilio->setColoniaPoblacion("INSURGENTES SUR");
-  $domicilio->setDelegacionMunicipio("CIUDAD DE MEXICO");
-  $domicilio->setCiudad("CIUDAD DE MEXICO");
-  $domicilio->setEstado($estado::DF);
-  $domicilio->setCP(null);
 
-  $persona->setPrimerNombre("JUAN");
-  $persona->setApellidoPaterno("PRUEBA");
-  $persona->setApellidoMaterno("CUATRO");
-  $persona->setFechaNacimiento("1980-01-04");
-  $persona->setRFC("PUAC800107");
-  $persona->setDomicilio($domicilio);
-   
-  $request->setFolioOtorgante("121212");
-  $request->setSegmento($segmento::PP);
-  $request->setPersona($persona);
+    $request = new \rc\simulacion\pe\Client\Model\Peticion();
 
-  try {
-    $result = $this->apiInstance->getLAEByPerson($this->x_api_key, $request);
-    $this->assertTrue($result!==null);
-    echo "testGetLAEByPerson\n";
-  } catch (Exception $e) {
-    echo 'Exception when calling LAE_SimulacionApi->getLAEByPerson: ', $e->getMessage(), PHP_EOL;
-  }
-}
+    $request->setFolio("10000200");
+    $request->setNumeroDocumento("67544489");
+    $request->setTipoDocumento("1");
 
-public function testGetLAEByFolioConsulta()
-{
-  $request = new \LAESimulacion\Client\Model\PeticionFolioConsulta();
-  $segmento = new \LAESimulacion\Client\Model\CatalogoSegmento();
+    try {
+        $result = $this->apiInstance->getRC($this->x_api_key, $request);
+        
+        if($this->apiInstance->getStatusCode() == 200){
+            print_r($result);
+        }
+    } catch (ApiException $e) {
 
-  $request->setFolioOtorgante("1");
-  $request->setSegmento($segmento::PP);
-  $request->setFolioConsulta("386636538");
-  
-  try {
-    $result = $this->apiInstance->getLAEByFolioConsulta($this->x_api_key, $request);
-    $this->assertTrue($result!==null);
-    echo "testGetLAEByFolioConsulta\n";
-  } catch (Exception $e) {
-    echo 'Exception when calling LAE_SimulacionApi->getLAEByFolioConsulta: ', $e->getMessage(), PHP_EOL;
-  }
+        if($e->getCode() !== 204){
+            echo ' code. Exception when calling ApiTest->getRC: ', $e->getResponseBody(), PHP_EOL;
+        }
+    }
+    $this->assertTrue($this->apiInstance->getStatusCode() == 200);
+
 }
 ```
 
