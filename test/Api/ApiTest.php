@@ -26,7 +26,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
 
         $request = new \rc\simulacion\pe\Client\Model\Peticion();
 
-        $request->setFolio("10000500");
+        $request->setFolio("10000200");
         $request->setNumeroDocumento("67544489");
         $request->setTipoDocumento("1");
 
