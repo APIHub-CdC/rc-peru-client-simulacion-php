@@ -12,7 +12,7 @@ class Respuesta implements ModelInterface, ArrayAccess
     protected static $rc_peModelName = 'Respuesta';
     
     protected static $rc_peTypes = [
-        'datos_consulta' => '\rc\simulacion\pe\Client\Model\DatosConsuta',
+        'datos_consulta' => '\rc\simulacion\pe\Client\Model\DatosConsulta',
         'resumen_credito' => '\rc\simulacion\pe\Client\Model\ResumenCredito',
         'comportamiento_rcc_mfnz' => '\rc\simulacion\pe\Client\Model\ComportamientoRCCMFNZ',
         'detalles_creditos' => '\rc\simulacion\pe\Client\Model\DetalleCreditos',
